@@ -1,7 +1,7 @@
 const Thoughts = require('./thoughts');
-// const Course = require('./username');
+const Course = require('./username');
 
-module.exports = { Thoughts};
+module.exports = { Thoughts, username };
 // , username 
 
 // Thought:

@@ -24,8 +24,12 @@ const thoughtsSchema = new Schema(
       virtuals: true,
     },
     id: false,
-  }git 
+  }
 );
+// Virtual to get the reactionCount (length of the thoughts array)
+thoughtsSchema.virtual('reactionCount').get(function () {
+  return this.thoughts.length;
+});
 
 const Thoughts = model('thoughts', thoughtsSchema);
 
