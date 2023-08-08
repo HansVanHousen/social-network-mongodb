@@ -280,3 +280,42 @@ You are required to submit BOTH of the following for review:
 
 ---
 © 2022 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.
+
+
+
+to add to username controller 
+
+  // Add an assignment to a Username
+  // addAssignment(req, res) {
+  //   console.log('You are adding an assignment');
+  //   console.log(req.body);
+  //   Username.findOneAndUpdate(
+  //     { _id: req.params.usernameId },
+  //     { $addToSet: { assignments: req.body } },
+  //     { runValidators: true, new: true }
+  //   )
+  //     .then((username) =>
+  //       !username
+  //         ? res
+  //             .status(404)
+  //             .json({ message: 'No username found with that ID :(' })
+  //         : res.json(username)
+  //     )
+  //     .catch((err) => res.status(500).json(err));
+  // },
+  // Remove assignment from a Username
+  // removeAssignment(req, res) {
+  //   Username.findOneAndUpdate(
+  //     { _id: req.params.usernameId },
+  //     { $pull: { assignment: { assignmentId: req.params.assignmentId } } },
+  //     { runValidators: true, new: true }
+  //   )
+  //     .then((username) =>
+  //       !username
+  //         ? res
+  //             .status(404)
+  //             .json({ message: 'No username found with that ID :(' })
+  //         : res.json(username)
+  //     )
+  //     .catch((err) => res.status(500).json(err));
+  // },

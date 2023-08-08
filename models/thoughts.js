@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const reactionSchema = require('.reaction');
+const reactionSchema = require('./Reaction');
 
 // Schema to create a course model
 const thoughtsSchema = new Schema(
@@ -14,20 +14,20 @@ const thoughtsSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now(),
+      get: timestamp => new Date(timestamp).toLocaleString(),
     },
     username: {
         type: String,
         required: true,
       },
-      reactions: {
-
-      },
+      reactions: [reactionSchema]
   },
   {
     toJSON: {
+      getters: true,
       virtuals: true,
     },
-    // id: false,??
+    id: false,
   }
 )
 // Virtual to get the reactionCount (length of the thoughts array)
