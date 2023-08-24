@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const reactionSchema = require('./Reaction');
-
+const formattedDate = require('../utils/date.js');
 // Schema to create a course model
 const thoughtsSchema = new Schema(
   {
@@ -14,7 +14,7 @@ const thoughtsSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now(),
-      get: timestamp => new Date(timestamp).toLocaleString(),
+      get: (date) => formattedDate(date)
     },
     username: {
         type: String,
@@ -32,7 +32,7 @@ const thoughtsSchema = new Schema(
 )
 // Virtual to get the reactionCount (length of the thoughts array)
 thoughtsSchema.virtual('reactionCount').get(function () {
-  return this.thoughts.length;
+  return this.reactions.length;
 });
 const Thoughts = model('thoughts', thoughtsSchema);
 

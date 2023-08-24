@@ -1,10 +1,32 @@
 const { Username, Thoughts } = require("../models");
+const { create } = require("../models/Thoughts");
+
+// const { ObjectiD } = require('mongoose').Types
+
+// create
+// .create
+
+// Read
+// .find
+// .findOne
+
+// update
+// .findOneAndUpdate
+
+// delete
+// .findOneAndRemove
+// .findOneAndDelete?
+
+//tools
+// $set
+// $addtoset
+// $pull
 
 // FRIENDS!
-(module.exports = {
-  // Get all username
+module.exports = {
+  // Get all usernames .populate("thoughts").populate("friends")
   getUsername(req, res) {
-    Username.find()
+    Username.find().select().populate("friends").populate("thoughts")
       .then((username) => res.json(username))
       .catch((err) => {
         console.log(err);
@@ -15,7 +37,7 @@ const { Username, Thoughts } = require("../models");
   getSingleUsername(req, res) {
     console.log(req.params);
     Username.findOne({ _id: req.params.userId })
-      .select("-__v")
+      .select("-__v").populate("friends").populate("thoughts")
       .then(async (username) =>
         !username
           ? res.status(404).json({ message: req.params.userId })
@@ -32,20 +54,19 @@ const { Username, Thoughts } = require("../models");
       .then((username) => res.json(username))
       .catch((err) => res.status(500).json(err));
   },
-  // update a user by id
+
   updateUserById(req, res) {
-    User.findOneAndUpdate(req.params.id, req.body, { new: true })
-      .then((username) => {
-        if (!username) {
-          return res.status(404).json({ message: "User not found" });
-        }
-        res.json(userData);
-      })
+    Username.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $set: req.body },
+      { runValidators: true, new: true }
+    )
       .catch((err) => res.status(500).json(err));
   },
   // Delete a Username
   deleteUsername(req, res) {
-    Username.findOneAndRemove({ _id: req.params.userId })
+    console.log("randy")
+    Username.findOneAndDelete({_id: req.params.userId})
       .then((username) => res.json(username))
       .catch((err) => {
         console.log(err);
@@ -57,16 +78,11 @@ const { Username, Thoughts } = require("../models");
     Username.findOneAndUpdate(
       { _id: req.params.userId },
       { $addToSet: { friends: req.body.friendId || req.params.friendId } },
-      { new: true }
+      { runValidators: true, new: true }
     )
-      .then((username) => {
-        if (!username) {
-          return res.status(404).json({ message: "User not found" });
-        }
-        res.json(userData);
-      })
-      .catch((err) => {res.status(500).json(err)});
-  },
+    .then((username) => res.json(username))
+    .catch((err) => res.status(500).json(err));
+},
   
   // remove friend
   removeFriend({ params }, res) {  
@@ -75,19 +91,8 @@ const { Username, Thoughts } = require("../models");
       { $pull: { friends: params.friendId } },
       { new: true }
     )
-      .then((dbusername) => {
-        if (!dbusername) {
-          return res.status(404).json({ message: "No user with this id!" });
-        }
-        const removed = !dbusername.friends.includes(params.friendId);
-   
-        if (removed) {
-          res.json({ message: "Friend removed successfully!", dbusername });
-        } else {
-          res.json(dbusername);
-        }
-      })
-      .catch((err) => res.status(400).json(err));
+    .then((username) => res.json(username))
+    .catch((err) => res.status(500).json(err));
     },
   
-})
+}

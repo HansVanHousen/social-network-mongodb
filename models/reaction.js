@@ -1,4 +1,5 @@
 const { Schema, Types } = require('mongoose');
+const formattedDate = require('../utils/date.js');
 
 const reactionSchema = new Schema(
   {
@@ -15,10 +16,10 @@ const reactionSchema = new Schema(
       type: String,
       required: true,
         },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      get: timestamp => new Date(timestamp).toLocaleDateString()
+        createdAt: {
+          type: Date,
+          default: Date.now(),
+          get: (date) => formattedDate(date)
     },
   },
   {

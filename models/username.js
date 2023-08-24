@@ -1,5 +1,5 @@
 const { Schema, model, Types } = require('mongoose');
-// const thoughtsSchema = require('./Thoughts')
+const thoughtsSchema = require('./Thoughts')
 // Schema to create a course model
 const usernameSchema = new Schema(
   {
@@ -18,19 +18,20 @@ const usernameSchema = new Schema(
       thoughts: [
         {
           type: Schema.Types.ObjectId,
-          ref: 'Thoughts',
+          ref: 'thoughts',
         },
       ],
       friends: [
         {
           type: Schema.Types.ObjectId,
           ref: 'Username',
+          // username?
         },
       ],
   },
   {
     toJSON: {
-      virtuals: true,
+      virtualss: true,
     },
     id: false,
   }
@@ -41,6 +42,6 @@ usernameSchema.virtual('friendCount').get(function () {
     return this.friends.length;
   });
   
-const Username = model('username', usernameSchema);
+const Username = model('Username', usernameSchema);
 
 module.exports = Username;
